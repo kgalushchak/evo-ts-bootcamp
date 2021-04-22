@@ -1,0 +1,27 @@
+.App {
+    font-family: courier;
+    text-align: center;
+}
+
+.array {
+    height: 500px;
+    margin: 10px;
+}
+
+.array-item {
+    background-color: yellow;
+    border: 1px solid red;
+    border-radius: 5px;
+    stroke: red;
+    width: 10px;
+    display: inline-block;
+}
+
+.control-btn {
+    border: 1px solid red;
+    border-radius: 4px;
+    background-color: white;
+    margin: 10px;
+    font-size: 20px;
+    font-family: courier;
+}

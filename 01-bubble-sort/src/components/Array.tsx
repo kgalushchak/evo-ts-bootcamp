@@ -1,5 +1,6 @@
 import React, {Component, CSSProperties} from 'react';
 import {ArrayItem} from './ArrayItem';
+import '../styles.css';
 
 interface ArrayProps {
   array: number[]
@@ -7,17 +8,12 @@ interface ArrayProps {
 
 export class Array extends Component<ArrayProps> {
   render() {
-    const arrayStyle: CSSProperties = {
-      height: '500px',
-      margin: '10px',
-    };
-
     const items = this.props.array.map((item, index) => {
       return <ArrayItem key={index} height={item}/>;
     });
 
     return (
-      <div style={arrayStyle}>
+      <div className="array">
         {items}
       </div>
     );

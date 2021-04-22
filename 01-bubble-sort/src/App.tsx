@@ -4,42 +4,42 @@ import {Array} from './components/Array';
 import {Status} from './types';
 import {sort} from './utils/sorter';
 import {ControlButton} from './components/ControlButton';
+import './styles.css';
 
 interface AppState {
   array: number[],
   status: Status,
 }
 
-export class App extends Component<Record<string, never>, AppState>{
-  constructor(props: Record<string, never>) {
+export class App extends Component<{}, AppState>{
+  constructor(props: {}) {
     super(props);
     this.state = {
       array: getRandomNumbersArray(),
       status: Status.notStarted
     };
-
-    this.newArrayBtnHandler = this.newArrayBtnHandler.bind(this);
-    this.startSortingBtnHandler = this.startSortingBtnHandler.bind(this);
   }
 
-  private interval: NodeJS.Timeout | undefined;
+  private interval = 0;
 
-  newArrayBtnHandler() {
-    clearInterval(this.interval!);
-    this.setState({status: Status.notStarted});
-    this.setState({array: getRandomNumbersArray()});
+  newArrayBtnHandler = () => {
+    clearInterval(this.interval);
+    this.setState({
+      status: Status.notStarted,
+      array: getRandomNumbersArray()
+    });
   }
 
-  startSortingBtnHandler() {
-    if (this.state.status !== Status.sorted) {
+  startSortingBtnHandler = () => {
+    if (this.state.status === Status.notStarted) {
       this.setState({status: Status.sorting});
       let arrayBeforeChange = [...this.state.array];
-      this.interval = setInterval(() => {
+      this.interval = window.setInterval(() => {
         this.setState({array: sort(this.state.array)});
         const isArraySorted = JSON.stringify(this.state.array) === JSON.stringify(arrayBeforeChange);
         if (isArraySorted) {
           this.setState({status: Status.sorted});
-          clearInterval(this.interval!);
+          clearInterval(this.interval);
         } else {
           arrayBeforeChange = [...this.state.array];
         }
@@ -48,13 +48,8 @@ export class App extends Component<Record<string, never>, AppState>{
   }
 
   render() {
-    const appStyle: CSSProperties = {
-      fontFamily: 'courier',
-      textAlign: 'center',
-    };
-
     return (
-      <div className="App" style={appStyle}>
+      <div className="App">
         <h1>Bubble sort</h1>
         <Array array={this.state.array}/>
         <div>Status: {this.state.status}</div>

@@ -10,6 +10,7 @@ module.exports = {
     'indent': ['error', 2],
     'no-console': ['warn'],
     '@typescript-eslint/ban-ts-comment': ['off'],
+    '@typescript-eslint/ban-types': ['off'],
     'react-hooks/rules-of-hooks': ['error'],
     'react-hooks/exhaustive-deps': ['warn']
   },
