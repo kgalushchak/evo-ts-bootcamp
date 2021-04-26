@@ -1,0 +1,17 @@
+section{
+    display: flex;
+    flex-wrap: wrap;
+}
+section::after {
+    content: '';
+    flex-grow: 999999999;
+}
+div {
+    margin: 3px;
+}
+img {
+    min-width: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    vertical-align: bottom;
+}
