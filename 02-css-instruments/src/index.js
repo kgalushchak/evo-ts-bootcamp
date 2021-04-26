@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const token = '4tkZrg2mpR3T_C_rk6h1a-Aqn_-6pMvn6qIK_3Tp2UQ';
+const token = process.env.TOKEN;
 const imagesContainer = document.querySelector('#image-container');
 
 const server = axios.create({
