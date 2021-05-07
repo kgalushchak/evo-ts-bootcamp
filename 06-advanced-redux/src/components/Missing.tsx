@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 export function Missing() {
-    return (
-        <div>Missing</div>
-    );
+  return (
+    <div>Missing</div>
+  );
 }
