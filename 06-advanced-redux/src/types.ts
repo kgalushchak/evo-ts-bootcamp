@@ -4,7 +4,9 @@ export type Pizza = {
     _id: string;
 }
 
+export type CartItem = Pizza & { count: number;};
+
 export type State = {
     pizza: Pizza[];
-    basket: Array<Pizza & { count: number;}>;
+    cart: CartItem[];
 }
