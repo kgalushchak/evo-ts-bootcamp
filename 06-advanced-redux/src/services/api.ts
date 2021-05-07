@@ -3,22 +3,22 @@ export async function getPizza() {
     return {
         items: [
             {
-                name: "Los-Angeles pizza",
+                name: "Los-Angeles redux",
                 price: 34,
                 _id: "606a0743b3b2f0b339363de2"
             },
             {
-                name: "Chicago pizza",
+                name: "Chicago redux",
                 price: 100,
                 _id: "606a0743b3b2f0b339363de3"
             },
             {
-                name: "New-York pizza",
+                name: "New-York redux",
                 price: 15.42,
                 _id: "606a07ea1a45d242a7b77fe2"
             },
             {
-                name: "Midtown pizza",
+                name: "Midtown redux",
                 price: 20.45,
                 _id: "606a07ea1a45d242a7b77fe3"
             }

@@ -44,7 +44,7 @@ export function useApp() {
             .reduce((acc, p: Pizza) =>
                 acc + p.price, 0),
         pizza,
-        bucket: validBasket,
+        cart: validBasket,
         plusPizzaBucket,
         minusPizzaBucket,
     };
