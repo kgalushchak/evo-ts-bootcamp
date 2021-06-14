@@ -5,25 +5,28 @@ import { useAppSelector } from './app/hooks';
 import { selectFavourites } from './features/photos/photosSlice';
 import './App.css';
 
+enum tab {
+  TAB_PHOTOS = 'Photos',
+  TAB_FAVOURITES = 'Favourites'
+}
+
 function App() {
-  const TAB_PHOTOS = 'Photos';
-  const TAB_FAVOURITES = 'Favourites';
-  const [selectedTab, setSelectedTab] = useState(TAB_PHOTOS);
+  const [selectedTab, setSelectedTab] = useState(tab.TAB_PHOTOS);
   const favourites = useAppSelector(selectFavourites);
 
-  let tab;
-  if (selectedTab === TAB_FAVOURITES) {
-    tab = <Gallery photos={favourites}/>;
-  } else tab = <Photos />;
+  let activeTab;
+  if (selectedTab === tab.TAB_FAVOURITES) {
+    activeTab = <Gallery photos={favourites}/>;
+  } else activeTab = <Photos />;
 
   return (
     <div className="App">
       <header className="App-header">
         <div>
-          <span onClick={() => setSelectedTab(TAB_PHOTOS)} className={selectedTab === TAB_PHOTOS ? 'selected-tab' : 'tab'}>{TAB_PHOTOS}</span>
-          <span onClick={() => setSelectedTab(TAB_FAVOURITES)} className={selectedTab === TAB_FAVOURITES ? 'selected-tab' : 'tab'}>{TAB_FAVOURITES}</span>
+          <span onClick={() => setSelectedTab(tab.TAB_PHOTOS)} className={selectedTab === tab.TAB_PHOTOS ? 'selected-tab' : 'tab'}>{tab.TAB_PHOTOS}</span>
+          <span onClick={() => setSelectedTab(tab.TAB_FAVOURITES)} className={selectedTab === tab.TAB_FAVOURITES ? 'selected-tab' : 'tab'}>{tab.TAB_FAVOURITES}</span>
         </div>
-        {tab}
+        {activeTab}
       </header>
     </div>
   );

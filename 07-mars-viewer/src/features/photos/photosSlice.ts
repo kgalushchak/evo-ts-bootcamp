@@ -36,7 +36,7 @@ export const photosSlice = createSlice({
   name: 'photos',
   initialState,
   reducers: {
-    manageFavourites: (state, action: PayloadAction<PhotoProps>) => {
+    toggleFavourites: (state, action: PayloadAction<PhotoProps>) => {
       const photoIndex = state.photos.findIndex(x => x.id ===action.payload.id);
       if (!state.favourites.find(x => x.id === action.payload.id)) {
         state.favourites.push(action.payload);
@@ -59,12 +59,12 @@ export const photosSlice = createSlice({
   },
 });
 
-export const { manageFavourites, setSol } = photosSlice.actions;
+export const { toggleFavourites, setSol } = photosSlice.actions;
 
 export const selectPhotos = (state: RootState) => state.photos.photos;
 
 export const selectFavourites = (state: RootState) => state.photos.favourites;
 
-export const getSol = (state: RootState) => state.photos.sol;
+export const selectSol = (state: RootState) => state.photos.sol;
 
 export default photosSlice.reducer;

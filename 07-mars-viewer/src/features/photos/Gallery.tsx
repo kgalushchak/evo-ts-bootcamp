@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { GalleryProps, selectFavourites } from './photosSlice';
-import { manageFavourites } from './photosSlice';
+import { toggleFavourites } from './photosSlice';
 import './Gallery.css';
 
 export const Gallery: React.FC<GalleryProps> = ({photos}) => {
@@ -13,7 +13,7 @@ export const Gallery: React.FC<GalleryProps> = ({photos}) => {
     return (<div key={photo.id} className="tooltip">
       <img
         src={photo.img_src}
-        onClick={() => dispatch(manageFavourites(photo))}
+        onClick={() => dispatch(toggleFavourites(photo))}
         className={markedAsFavourite ? 'favourite' : ''}
       />
       <span className="tooltiptext">{!markedAsFavourite ? 'Click to add to favourites' : 'Click to remove from favourites'}</span>

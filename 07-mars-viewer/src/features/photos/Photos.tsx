@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getPhotos,  getSol, setSol, selectPhotos } from './photosSlice';
+import { getPhotos,  selectSol, setSol, selectPhotos } from './photosSlice';
 import styles from './Photos.module.css';
 import {Gallery} from './Gallery';
 
 export function Photos() {
   const photos = useAppSelector(selectPhotos);
-  const sol = useAppSelector(getSol);
+  const sol = useAppSelector(selectSol);
   const dispatch = useAppDispatch();
 
   return (
