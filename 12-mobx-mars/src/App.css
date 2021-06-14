@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+  font-size: 32px;
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-tab {
+  text-decoration: none;
+  color: black;
+  margin: 5px;
+}
+
+.tab {
+  text-decoration: underline;
+  color: rgb(112, 76, 182);
+  margin: 5px;
+}
