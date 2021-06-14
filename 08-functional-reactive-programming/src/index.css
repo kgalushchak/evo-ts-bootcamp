@@ -1,0 +1,44 @@
+.app {
+    display: grid;
+    grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+    position: absolute;
+    width: 100vh;
+    height: 100vh;
+    cursor: none;
+}
+
+.cell {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background-size: 100%;
+}
+
+.wall {
+    background-image: url("./images/wall.svg");
+    opacity: 50%;
+}
+
+.window {
+    background-image: url("./images/window.svg");
+}
+
+.cat {
+    background-image: url("images/cat.svg");
+}
+
+.hand {
+    display: block;
+    background-size: 100%;
+    width: 9vh;
+    height: 9vh;
+    position: absolute;
+    cursor: none;
+}
+
+.score {
+    position: absolute;
+    left: 105vh;
+    font-size: x-large;
+}
