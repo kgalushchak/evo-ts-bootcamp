@@ -1,10 +1,9 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import './App.css';
 import Canvas from './Canvas';
-import { useStore } from './store';
+import {useStore} from './SnakeGame';
 import {useEventListener} from './utils/hooks';
 import {Directions, Keys} from './Keys';
-import {getEyesPosition} from './game';
 import {observer} from 'mobx-react-lite';
 
 const App = observer(() => {
@@ -25,8 +24,6 @@ const App = observer(() => {
 
   return (
     <div className="App">
-      <header className="App-header">
-      </header>
       <Canvas draw={store.draw} id="game-canvas" height={store.HEIGHT.toString()} width={store.WIDTH.toString()}/>
     </div>
   );

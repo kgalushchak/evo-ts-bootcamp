@@ -1,6 +1,6 @@
 import {action, makeAutoObservable} from 'mobx';
 import {createContext} from './utils/storeUtils';
-import {getEyesPosition} from './game';
+import {getEyesPosition, getFoodPosition} from './game';
 
 export enum Direction {
   LEFT = 'left',
@@ -9,7 +9,7 @@ export enum Direction {
   DOWN = 'down'
 }
 
-class Game {
+class SnakeGame {
   WIDTH = 1000;
   HEIGHT = 600;
   STEP = 20;
@@ -58,9 +58,16 @@ class Game {
         context.closePath();
       }
     );
+
+    const food = getFoodPosition(this.HEIGHT, this.WIDTH, this.STEP);
+    context.beginPath();
+    context.fillStyle = 'rgb(255, 0, 0)';
+    context.arc(food.x, food.y, this.STEP/2, 0, 2 * Math.PI);
+    context.fill();
+    context.closePath();
   }
 }
 
 export const { StoreProvider, useStore } = createContext({
-  Game: new Game()
+  Game: new SnakeGame()
 });

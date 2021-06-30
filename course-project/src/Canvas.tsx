@@ -18,9 +18,7 @@ const Canvas = observer((props: CanvasProps) => {
     draw(context);
   }, [draw]);
 
-  return (<canvas ref={canvasRef} {...rest}>
-    <div>The browser is not supported, please use the latest version of Google Chrome.</div>
-  </canvas>);
+  return (<canvas ref={canvasRef} {...rest}/>);
 });
 
 export default Canvas;
