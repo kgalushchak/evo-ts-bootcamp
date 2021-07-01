@@ -1,4 +1,4 @@
-import {Direction} from './SnakeGame';
+import {Direction} from './types';
 
 export enum Keys {
   ArrowLeft = 'ArrowLeft',

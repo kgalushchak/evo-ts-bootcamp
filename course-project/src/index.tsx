@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { StoreProvider } from './SnakeGame';
+import { StoreProvider } from './GameStore';
 
 ReactDOM.render(
   <StoreProvider>
