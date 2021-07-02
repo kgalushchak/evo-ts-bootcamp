@@ -10,7 +10,7 @@ interface CanvasProps {
 }
 
 const Canvas = observer((props: CanvasProps) => {
-  const {move} = useStore('Game');
+  const {move, speed} = useStore('Game');
   const canvasRef = useRef(null);
   const { draw, ...rest } = props;
 
@@ -22,7 +22,7 @@ const Canvas = observer((props: CanvasProps) => {
 
     const intervalId = setInterval(() => {
       move(context);
-    }, 1000);
+    }, speed);
     return () => clearInterval(intervalId);
   }, [draw]);
 

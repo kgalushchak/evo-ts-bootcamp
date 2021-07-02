@@ -1,19 +1,29 @@
 import {action, makeAutoObservable} from 'mobx';
 import {createContext} from './utils/storeUtils';
-import {getEyesPosition, getFoodPosition, moveSnake} from './gameCalculations';
-import {Direction, Snake} from './types';
+import {
+  adjustSnakeLength,
+  getEyesPosition,
+  getFoodImage,
+  getFoodPosition,
+  isFoodEaten,
+  moveSnake
+} from './gameCalculations';
+import {Direction, Position, Snake} from './types';
 
 class GameStore {
-  WIDTH = 1000;
+  WIDTH = 900;
   HEIGHT = 600;
-  STEP = 20;
+  STEP = 30;
   length = 3;
+  speed = 300;
   direction: Direction = Direction.RIGHT;
   snake:  Snake = [
     {x: this.WIDTH/2, y: this.HEIGHT/2},
     {x: this.WIDTH/2 - this.STEP, y: this.HEIGHT/2},
     {x: this.WIDTH/2 - 2 * this.STEP, y: this.HEIGHT/2}
   ];
+  food: Position = getFoodPosition(this.WIDTH, this.HEIGHT, this.STEP);
+  foodImg: HTMLImageElement = getFoodImage();
 
   constructor() {
     makeAutoObservable(this, {
@@ -30,8 +40,8 @@ class GameStore {
   }
 
   draw(context: CanvasRenderingContext2D) {
+    this.drawFood(context);
     this.drawSnake(context);
-    // this.drawFood(context);
   }
 
   //TODO move to separate file
@@ -50,7 +60,7 @@ class GameStore {
         context.beginPath();
         context.fillStyle = 'rgb(255, 255, 255)';
         context.strokeStyle = 'rgb(0, 0, 0)';
-        context.arc(eye.x, eye.y, 4, 0 , 2 * Math.PI);
+        context.arc(eye.x, eye.y, 5, 0 , 2 * Math.PI);
         context.stroke();
         context.fill();
         context.closePath();
@@ -65,17 +75,17 @@ class GameStore {
   }
 
   drawFood(context: CanvasRenderingContext2D){
-    const food = getFoodPosition(this.HEIGHT, this.WIDTH, this.STEP);
-    context.beginPath();
-    context.fillStyle = 'rgb(255, 0, 0)';
-    context.arc(food.x, food.y, this.STEP/2, 0, 2 * Math.PI);
-    context.fill();
-    context.closePath();
+    context.drawImage(this.foodImg, this.food.x, this.food.y, this.STEP, this.STEP);
   }
 
   move(context: CanvasRenderingContext2D) {
-    this.snake = moveSnake(this.snake, this.direction, this.STEP);
-    context.clearRect(0, 0, this.WIDTH, this.HEIGHT); //TODO adjust as food also will be cleared when whole canvas is cleared
+    this.snake = moveSnake(this.snake, this.direction, this.STEP, this.WIDTH, this.HEIGHT);
+    context.clearRect(0, 0, this.WIDTH, this.HEIGHT);
+    if (isFoodEaten(this.snake, this.food)) {
+      this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP);
+      this.foodImg = getFoodImage();
+      this.food = getFoodPosition(this.WIDTH, this.HEIGHT, this.STEP);
+    }
     this.draw(context);
   }
 }

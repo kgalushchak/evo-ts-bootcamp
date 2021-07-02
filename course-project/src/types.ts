@@ -1,6 +1,8 @@
-export type EyesPosition = [{x: number, y:number}, {x: number, y:number}];
+export type Position = {x: number, y:number};
 
-export type Snake = Array<{x: number, y:number}>;
+export type EyesPosition = [Position, Position];
+
+export type Snake = Position[];
 
 export enum Direction {
   LEFT = 'left',

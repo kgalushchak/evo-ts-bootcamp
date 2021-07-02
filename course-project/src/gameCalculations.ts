@@ -1,4 +1,4 @@
-import {Direction, EyesPosition, Snake} from './types';
+import {Direction, EyesPosition, Position, Snake} from './types';
 
 const LEFT_EYE_INDENT = 0.25;
 const RIGHT_EYE_INDENT = 0.75;
@@ -48,29 +48,93 @@ export const getEyesPosition = (
   }
 };
 
-const generateRandomNumberUsingStep = (maxNumber: number, step: number) => {
-  const a =  Math.floor(Math.random() * (maxNumber / step)) * step; //TODO adjust so food is not displayed on the edge
+export const moveSnake = (snake: Snake, direction: Direction, step: number, width: number, height: number): Snake => {
+  const newSnake = [...snake];
+  newSnake.pop()!;
+  switch (direction) {
+  case Direction.RIGHT:
+    if (snake[0].x >= width - step) {
+      newSnake.unshift({x: 0, y: snake[0].y});
+    } else {
+      newSnake.unshift({x: snake[0].x + step, y: snake[0].y});
+    }
+    return newSnake;
+  case Direction.LEFT:
+    if (snake[0].x <= 0) {
+      newSnake.unshift({x: width - step, y: snake[0].y});
+    } else {
+      newSnake.unshift({x: snake[0].x - step, y: snake[0].y});
+    }
+    return newSnake;
+
+  case Direction.UP:
+    if (snake[0].y <= 0) {
+      newSnake.unshift({x: snake[0].x, y: height - step});
+    } else {
+      newSnake.unshift({x: snake[0].x, y: snake[0].y - step});
+    }
+    return newSnake;
+
+  case Direction.DOWN:
+    if (snake[0].y >= height - step) {
+      newSnake.unshift({x: snake[0].x, y: 0});
+    } else {
+      newSnake.unshift({x: snake[0].x, y: snake[0].y + step});
+    }
+    return newSnake;
+  default: return newSnake;
+  }
+};
+
+export const isFoodEaten = (snake: Snake, food: Position): boolean => {
+  if (snake[0].x === food.x && snake[0].y === food.y) {
+    return true;
+  } else return false;
+};
+
+export const adjustSnakeLength = (snake: Snake, direction: Direction, step: number): Snake => {
+  const newSnake = [...snake];
+  switch (direction) {
+  case Direction.RIGHT:
+    newSnake.unshift({x: snake[0].x + step, y: snake[0].y});
+    return newSnake;
+  case Direction.LEFT:
+    newSnake.unshift({x: snake[0].x - step, y: snake[0].y});
+    return newSnake;
+  case Direction.UP:
+    newSnake.unshift({x: snake[0].x, y: snake[0].y - step});
+    return newSnake;
+  case Direction.DOWN:
+    newSnake.unshift({x: snake[0].x, y: snake[0].y + step});
+    return newSnake;
+  default: return newSnake;
+  }
+};
+
+const generateRandomNumberUsingStep = (maxNumber: number, step: number): number => {
+  const a =  Math.floor(Math.random() * (maxNumber / step)) * step;
   return a;
 };
 
-export const getFoodPosition = (height: number, width: number, step: number): {x: number, y:number} => {
+export const getFoodPosition = (width: number, height: number, step: number): Position => {
   return {
     x: generateRandomNumberUsingStep(width, step),
     y: generateRandomNumberUsingStep(height, step)
   };
 };
 
-export const moveSnake = (snake: Snake, direction: Direction, step: number): Snake => {
-  const newSnake = [...snake];
-  const elemToRemove = newSnake.pop()!; // TODO perhaps it will be useful later
-  if (direction === Direction.RIGHT) {
-    newSnake.unshift({x: snake[0].x + step, y: snake[0].y});
-  } else if (direction === Direction.LEFT) {
-    newSnake.unshift({x: snake[0].x - step, y: snake[0].y});
-  } else if (direction === Direction.UP) {
-    newSnake.unshift({x: snake[0].x, y: snake[0].y - step});
-  } else {
-    newSnake.unshift({x: snake[0].x, y: snake[0].y + step});
-  }
-  return newSnake;
+const foodImgSrc = [ //TODO use local file
+  'https://image.flaticon.com/icons/png/32/2224/2224168.png', //apple
+  'https://image.flaticon.com/icons/png/32/2224/2224183.png', //banana
+  'https://image.flaticon.com/icons/png/32/2224/2224175.png', //avocado
+  'https://image.flaticon.com/icons/png/32/2224/2224321.png', //watermelon
+  'https://image.flaticon.com/icons/png/32/2224/2224308.png' //grape
+];
+
+export const getFoodImage = (): HTMLImageElement => {
+  const menuSize = foodImgSrc.length;
+  const selectedFood = Math.floor(Math.random() * menuSize);
+  const foodImg = new Image();
+  foodImg.src = foodImgSrc[selectedFood];
+  return foodImg;
 };
