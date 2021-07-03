@@ -1,4 +1,5 @@
-import {Direction, EyesPosition, Position, Snake} from './types';
+import {Direction, EyesPosition, Food, FoodType, Position, Snake} from './types';
+import {food} from './food';
 
 const LEFT_EYE_INDENT = 0.25;
 const RIGHT_EYE_INDENT = 0.75;
@@ -86,8 +87,8 @@ export const moveSnake = (snake: Snake, direction: Direction, step: number, widt
   }
 };
 
-export const isFoodEaten = (snake: Snake, food: Position): boolean => {
-  if (snake[0].x === food.x && snake[0].y === food.y) {
+export const isFoodEaten = (snake: Snake, foodPosition: Position): boolean => {
+  if (snake[0].x === foodPosition.x && snake[0].y === foodPosition.y) {
     return true;
   } else return false;
 };
@@ -123,18 +124,33 @@ export const getFoodPosition = (width: number, height: number, step: number): Po
   };
 };
 
-const foodImgSrc = [ //TODO use local file
-  'https://image.flaticon.com/icons/png/32/2224/2224168.png', //apple
-  'https://image.flaticon.com/icons/png/32/2224/2224183.png', //banana
-  'https://image.flaticon.com/icons/png/32/2224/2224175.png', //avocado
-  'https://image.flaticon.com/icons/png/32/2224/2224321.png', //watermelon
-  'https://image.flaticon.com/icons/png/32/2224/2224308.png' //grape
-];
-
-export const getFoodImage = (): HTMLImageElement => {
-  const menuSize = foodImgSrc.length;
+export const getFood = (): {foodImg: HTMLImageElement, foodType: FoodType} => {
+  const menuSize = food.length;
   const selectedFood = Math.floor(Math.random() * menuSize);
   const foodImg = new Image();
-  foodImg.src = foodImgSrc[selectedFood];
-  return foodImg;
+  foodImg.src = food[selectedFood].imgSrc;
+  const foodType = food[selectedFood].type;
+  return {foodImg, foodType};
+};
+
+export const isCollisionWithTail = (snake: Snake): boolean => {
+  let isCollision = false;
+  const head = snake[0];
+  const tail = [...snake];
+  tail.shift();
+  tail.forEach(tailEl => {
+    if (tailEl.x === head.x && tailEl.y === head.y) {
+      isCollision = true;
+    }
+  });
+  return isCollision;
+};
+
+export const changeDirection = (direction: Direction): Direction => {
+  let newDirection;
+  if (direction !== 3) {
+    newDirection = direction + 1;
+  } else newDirection = 0;
+  const directionKey: string = Direction[newDirection];
+  return Direction[directionKey as keyof typeof Direction];
 };

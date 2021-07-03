@@ -2,28 +2,30 @@ import {action, makeAutoObservable} from 'mobx';
 import {createContext} from './utils/storeUtils';
 import {
   adjustSnakeLength,
+  changeDirection,
   getEyesPosition,
-  getFoodImage,
+  getFood,
   getFoodPosition,
+  isCollisionWithTail,
   isFoodEaten,
   moveSnake
 } from './gameCalculations';
-import {Direction, Position, Snake} from './types';
+import {Direction, FoodType, GameStatus, Position, Snake} from './types';
 
 class GameStore {
   WIDTH = 900;
   HEIGHT = 600;
   STEP = 30;
-  length = 3;
-  speed = 300;
+  moveTimeout = 500;
+  gameStatus: GameStatus = GameStatus.ACTIVE;
   direction: Direction = Direction.RIGHT;
   snake:  Snake = [
     {x: this.WIDTH/2, y: this.HEIGHT/2},
     {x: this.WIDTH/2 - this.STEP, y: this.HEIGHT/2},
     {x: this.WIDTH/2 - 2 * this.STEP, y: this.HEIGHT/2}
   ];
-  food: Position = getFoodPosition(this.WIDTH, this.HEIGHT, this.STEP);
-  foodImg: HTMLImageElement = getFoodImage();
+  foodPosition: Position = getFoodPosition(this.WIDTH, this.HEIGHT, this.STEP);
+  food = getFood();
 
   constructor() {
     makeAutoObservable(this, {
@@ -36,6 +38,10 @@ class GameStore {
   }
 
   setDirection(direction: Direction) {
+    if ((this.direction === Direction.RIGHT || this.direction === Direction.LEFT)
+      && (direction === Direction.RIGHT || direction === Direction.LEFT)) return;
+    if ((this.direction === Direction.UP || this.direction === Direction.DOWN)
+      && (direction === Direction.UP || direction === Direction.DOWN)) return;
     this.direction = direction;
   }
 
@@ -75,18 +81,31 @@ class GameStore {
   }
 
   drawFood(context: CanvasRenderingContext2D){
-    context.drawImage(this.foodImg, this.food.x, this.food.y, this.STEP, this.STEP);
+    context.drawImage(this.food.foodImg, this.foodPosition.x, this.foodPosition.y, this.STEP, this.STEP);
   }
 
   move(context: CanvasRenderingContext2D) {
     this.snake = moveSnake(this.snake, this.direction, this.STEP, this.WIDTH, this.HEIGHT);
     context.clearRect(0, 0, this.WIDTH, this.HEIGHT);
-    if (isFoodEaten(this.snake, this.food)) {
+    if (isFoodEaten(this.snake, this.foodPosition)) {
       this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP);
-      this.foodImg = getFoodImage();
-      this.food = getFoodPosition(this.WIDTH, this.HEIGHT, this.STEP);
+      if (this.food.foodType === FoodType.DRUG) {
+        this.direction = changeDirection(this.direction);
+      } else if (this.food.foodType === FoodType.FAST_FOOD) {
+        this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP);
+        this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP);
+      } else if (this.food.foodType === FoodType.ENERGY_DRINK) {
+        if (this.moveTimeout >= 150) { // 50 will be the smallest allowed timeout
+          this.moveTimeout = this.moveTimeout - 100;
+        }
+      }
+      this.food = getFood();
+      this.foodPosition = getFoodPosition(this.WIDTH, this.HEIGHT, this.STEP);
     }
     this.draw(context);
+    if (isCollisionWithTail(this.snake)) {
+      this.gameStatus = GameStatus.ENDED;
+    }
   }
 }
 
