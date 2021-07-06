@@ -12,6 +12,9 @@ import {
 } from './gameCalculations';
 import {Direction, FoodType, GameStatus, Position, Snake} from './types';
 
+const MIN_MOVE_TIMEOUT = 50;
+const MOVE_TIMEOUT_CHANGE_STEP = 100;
+
 class GameStore {
   WIDTH = 900;
   HEIGHT = 600;
@@ -95,8 +98,8 @@ class GameStore {
         this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP, this.WIDTH, this.HEIGHT);
         this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP, this.WIDTH, this.HEIGHT);
       } else if (this.food.foodType === FoodType.ENERGY_DRINK) {
-        if (this.moveTimeout >= 150) { // 50 will be the smallest allowed timeout
-          this.moveTimeout = this.moveTimeout - 100;
+        if (this.moveTimeout >= MIN_MOVE_TIMEOUT + MOVE_TIMEOUT_CHANGE_STEP) {
+          this.moveTimeout = this.moveTimeout - MOVE_TIMEOUT_CHANGE_STEP;
         }
       }
       this.food = getFood();

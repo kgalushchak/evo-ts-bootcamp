@@ -23,7 +23,7 @@ export enum GameStatus {
 }
 
 export enum FoodType {
-  FRUIT ,
+  FRUIT,
   DRUG,
   ENERGY_DRINK,
   FAST_FOOD

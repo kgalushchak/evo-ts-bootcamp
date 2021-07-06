@@ -133,10 +133,9 @@ export const isCollisionWithTail = (snake: Snake): boolean => {
 };
 
 export const changeDirection = (direction: Direction): Direction => {
-  let newDirection;
-  if (direction !== 3) {
+  let newDirection: Direction;
+  if (direction !== Direction.DOWN) {
     newDirection = direction + 1;
-  } else newDirection = 0;
-  const directionKey: string = Direction[newDirection];
-  return Direction[directionKey as keyof typeof Direction];
+  } else newDirection = Direction.LEFT;
+  return newDirection;
 };
