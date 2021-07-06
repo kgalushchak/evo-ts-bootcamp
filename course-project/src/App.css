@@ -6,7 +6,6 @@ canvas {
   background: #F6C6CE;
   padding: 0;
   margin: auto;
-  display: block;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -15,17 +14,23 @@ canvas {
 }
 
 #game-status {
-  font-size: 48pt;
+  font-size: 5em;
   font-weight: bolder;
   color: red;
   height: 100vh;
   line-height: 100vh;
   text-align: center;
-  animation: gameover 4s infinite;
+  animation: gameOverKeyFrames 4s infinite;
 }
 
-@keyframes gameover {
-  0%   {color: red;}
-  50%  {color: yellow;}
-  100% {color: red;}
+@keyframes gameOverKeyFrames {
+  0% {
+    color: red;
+  }
+  50% {
+    color: yellow;
+  }
+  100% {
+    color: red;
+  }
 }
