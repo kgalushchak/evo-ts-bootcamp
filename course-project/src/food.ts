@@ -1,39 +1,49 @@
 import {Food, FoodType} from './types';
+import apple from './images/apple.svg';
+import banana from './images/banana.svg';
+import avocado from './images/avocado.svg';
+import watermelon from './images/watermelon.svg';
+import grape from './images/grape.svg';
+import pill from './images/pill.svg';
+import pill2 from './images/pill2.svg';
+import energyDrink from './images/energy-drink.svg';
+import burger from './images/burger.svg';
 
-export const food: Food[] = [ //TODO use local files
+export const food: Food[] = [
   {
-    imgSrc: 'https://image.flaticon.com/icons/png/32/2224/2224168.png',
+    imgSrc: apple,
     type: FoodType.FRUIT
   },
   {
-    imgSrc: 'https://image.flaticon.com/icons/png/32/2224/2224183.png',
+    imgSrc: banana,
     type: FoodType.FRUIT
   },
   {
-    imgSrc: 'https://image.flaticon.com/icons/png/32/2224/2224175.png',
+    imgSrc: avocado,
     type: FoodType.FRUIT
   },
   {
-    imgSrc: 'https://image.flaticon.com/icons/png/32/2224/2224321.png',
+    imgSrc: watermelon,
     type: FoodType.FRUIT
   },
   {
-    imgSrc: 'https://image.flaticon.com/icons/png/32/2224/2224308.png',
+    imgSrc: grape,
     type: FoodType.FRUIT
   },
   {
-    imgSrc: 'https://image.flaticon.com/icons/png/32/595/595611.png',
+    imgSrc: pill,
     type: FoodType.DRUG
   },
   {
-    imgSrc: 'https://image.flaticon.com/icons/png/32/478/478753.png',
+    imgSrc: pill2,
     type: FoodType.DRUG
   },
   {
-    imgSrc: 'https://image.flaticon.com/icons/png/32/626/626636.png',
+    imgSrc: energyDrink,
     type: FoodType.ENERGY_DRINK
   },
   {
-    imgSrc: 'https://image.flaticon.com/icons/png/512/1046/1046787.png',
-    type: FoodType.FAST_FOOD}
+    imgSrc: burger,
+    type: FoodType.FAST_FOOD
+  }
 ];

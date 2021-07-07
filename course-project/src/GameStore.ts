@@ -91,12 +91,12 @@ class GameStore {
     this.snake = moveSnake(this.snake, this.direction, this.STEP, this.WIDTH, this.HEIGHT);
     context.clearRect(0, 0, this.WIDTH, this.HEIGHT);
     if (isFoodEaten(this.snake, this.foodPosition)) {
-      this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP);
+      this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP, this.WIDTH, this.HEIGHT);
       if (this.food.foodType === FoodType.DRUG) {
         this.direction = changeDirection(this.direction);
       } else if (this.food.foodType === FoodType.FAST_FOOD) {
-        this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP);
-        this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP);
+        this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP, this.WIDTH, this.HEIGHT);
+        this.snake = adjustSnakeLength(this.snake, this.direction, this.STEP, this.WIDTH, this.HEIGHT);
       } else if (this.food.foodType === FoodType.ENERGY_DRINK) {
         if (this.moveTimeout >= MIN_MOVE_TIMEOUT + MOVE_TIMEOUT_CHANGE_STEP) {
           this.moveTimeout = this.moveTimeout - MOVE_TIMEOUT_CHANGE_STEP;

@@ -49,9 +49,8 @@ export const getEyesPosition = (
   }
 };
 
-export const moveSnake = (snake: Snake, direction: Direction, step: number, width: number, height: number): Snake => {
+export const adjustSnakeLength = (snake: Snake, direction: Direction, step: number, width: number, height: number): Snake => {
   const newSnake = [...snake];
-  newSnake.pop()!;
   switch (direction) {
   case Direction.RIGHT:
     if (snake[0].x >= width - step) {
@@ -87,29 +86,16 @@ export const moveSnake = (snake: Snake, direction: Direction, step: number, widt
   }
 };
 
+export const moveSnake = (snake: Snake, direction: Direction, step: number, width: number, height: number): Snake => {
+  const newSnake = adjustSnakeLength(snake, direction, step, width, height);
+  newSnake.pop()!;
+  return newSnake;
+};
+
 export const isFoodEaten = (snake: Snake, foodPosition: Position): boolean => {
   if (snake[0].x === foodPosition.x && snake[0].y === foodPosition.y) {
     return true;
   } else return false;
-};
-
-export const adjustSnakeLength = (snake: Snake, direction: Direction, step: number): Snake => {
-  const newSnake = [...snake];
-  switch (direction) {
-  case Direction.RIGHT:
-    newSnake.unshift({x: snake[0].x + step, y: snake[0].y});
-    return newSnake;
-  case Direction.LEFT:
-    newSnake.unshift({x: snake[0].x - step, y: snake[0].y});
-    return newSnake;
-  case Direction.UP:
-    newSnake.unshift({x: snake[0].x, y: snake[0].y - step});
-    return newSnake;
-  case Direction.DOWN:
-    newSnake.unshift({x: snake[0].x, y: snake[0].y + step});
-    return newSnake;
-  default: return newSnake;
-  }
 };
 
 const generateRandomNumberUsingStep = (maxNumber: number, step: number): number => {
