@@ -1,0 +1,36 @@
+.App {
+  text-align: center;
+}
+
+canvas {
+  background: #F6C6CE;
+  padding: 0;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#game-status {
+  font-size: 5em;
+  font-weight: bolder;
+  color: red;
+  height: 100vh;
+  line-height: 100vh;
+  text-align: center;
+  animation: gameOverKeyFrames 4s infinite;
+}
+
+@keyframes gameOverKeyFrames {
+  0% {
+    color: red;
+  }
+  50% {
+    color: yellow;
+  }
+  100% {
+    color: red;
+  }
+}
