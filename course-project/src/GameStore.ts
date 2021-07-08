@@ -5,7 +5,7 @@ import {
   changeDirection,
   getEyesPosition,
   getFood,
-  getFoodPosition,
+  getFoodPosition, getInitialSnakePosition,
   isCollisionWithTail,
   isFoodEaten,
   moveSnake
@@ -20,23 +20,21 @@ class GameStore {
   HEIGHT = 600;
   STEP = 30;
   moveTimeout = 500;
-  gameStatus: GameStatus = GameStatus.ACTIVE;
+  gameStatus: GameStatus = GameStatus.NOT_STARTED;
   direction: Direction = Direction.RIGHT;
-  snake:  Snake = [
-    {x: this.WIDTH/2, y: this.HEIGHT/2},
-    {x: this.WIDTH/2 - this.STEP, y: this.HEIGHT/2},
-    {x: this.WIDTH/2 - 2 * this.STEP, y: this.HEIGHT/2}
-  ];
+  snake:  Snake = getInitialSnakePosition(this.WIDTH, this.HEIGHT, this.STEP);
   foodPosition: Position = getFoodPosition(this.WIDTH, this.HEIGHT, this.STEP);
   food = getFood();
 
   constructor() {
     makeAutoObservable(this, {
       setDirection: action.bound,
+      setGameStatus: action.bound,
       draw: action.bound,
       drawSnake: action.bound,
       drawFood: action.bound,
-      move: action.bound
+      move: action.bound,
+      resetGame: action.bound
     });
   }
 
@@ -46,6 +44,10 @@ class GameStore {
     if ((this.direction === Direction.UP || this.direction === Direction.DOWN)
       && (direction === Direction.UP || direction === Direction.DOWN)) return;
     this.direction = direction;
+  }
+
+  setGameStatus(gameStatus: GameStatus) {
+    this.gameStatus = gameStatus;
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -109,6 +111,15 @@ class GameStore {
     if (isCollisionWithTail(this.snake)) {
       this.gameStatus = GameStatus.ENDED;
     }
+  }
+
+  resetGame() {
+    this.gameStatus = GameStatus.ACTIVE;
+    this.moveTimeout = 500;
+    this.direction = Direction.RIGHT;
+    this.snake = getInitialSnakePosition(this.WIDTH, this.HEIGHT, this.STEP);
+    this.foodPosition = getFoodPosition(this.WIDTH, this.HEIGHT, this.STEP);
+    this.food = getFood();
   }
 }
 
