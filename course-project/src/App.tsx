@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import Canvas from './Canvas';
-import {useStore} from './GameStore';
+import Canvas from './components/Canvas';
+import {HEIGHT, WIDTH, useStore } from './GameStore';
 import {useEventListener} from './utils/hooks';
 import {Directions, Keys} from './Keys';
 import {observer} from 'mobx-react-lite';
 
 const App = observer(() => {
-  const store = useStore('Game');
+  const {draw, setDirection} = useStore('Game');
 
   const handler =
     (e: KeyboardEvent) => {
@@ -16,14 +16,14 @@ const App = observer(() => {
         return false;
       }
       const selectedDirection = Directions.get(Keys[e.code as keyof typeof Keys])!;
-      store.setDirection(selectedDirection);
+      setDirection(selectedDirection);
     };
 
   useEventListener(handler);
 
   return (
     <div className="App">
-      <Canvas draw={store.draw} id="game-canvas" height={store.HEIGHT.toString()} width={store.WIDTH.toString()}/>
+      <Canvas draw={draw} id="game-canvas" height={HEIGHT.toString()} width={WIDTH.toString()}/>
     </div>
   );
 });

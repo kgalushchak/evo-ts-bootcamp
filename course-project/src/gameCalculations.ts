@@ -4,6 +4,14 @@ import {food} from './food';
 const LEFT_EYE_INDENT = 0.25;
 const RIGHT_EYE_INDENT = 0.75;
 
+export const getInitialSnakePosition = (width: number, height: number, step: number): Snake => {
+  return [
+    {x: width / 2, y: height / 2},
+    {x: width / 2 - step, y: height / 2},
+    {x: width / 2 - 2 * step, y: height / 2}
+  ];
+};
+
 export const getEyesPosition = (
   direction: Direction,
   headPositionX: number,

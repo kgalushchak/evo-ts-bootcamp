@@ -1,7 +1,9 @@
 import React, {CSSProperties, useEffect, useRef} from 'react';
 import {observer} from 'mobx-react-lite';
-import {useStore} from './GameStore';
-import {GameStatus} from './types';
+import {useStore} from '../GameStore';
+import {GameStatus} from '../types';
+import GameOverScreen from './GameOverScreen';
+import StartScreen from './StartScreen';
 
 interface CanvasProps {
   id: string,
@@ -29,13 +31,15 @@ const Canvas = observer((props: CanvasProps) => {
     return () => clearInterval(intervalId);
   }, [draw, gameStatus, moveTimeout]);
 
-  if (gameStatus !== GameStatus.ENDED) {
+  if (gameStatus === GameStatus.ACTIVE) {
     const style: CSSProperties = {
       lineHeight: props.height,
     };
     return <canvas ref={canvasRef} style={style} {...rest}/>;
+  } else if (gameStatus === GameStatus.ENDED) {
+    return <GameOverScreen/>;
   } else {
-    return <div id="game-status">Game Over!</div>;
+    return <StartScreen/>;
   }
 });
 
