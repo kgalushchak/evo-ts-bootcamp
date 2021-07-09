@@ -5,7 +5,7 @@ import {useStore} from '../GameStore';
 const StartButton = observer(() => {
   const {resetGame} = useStore('Game');
 
-  return <button onClick={() => resetGame()}>Click to start</button>; //TODO make it work
+  return <button onClick={() => resetGame()}>Click to start</button>;
 
 });
 
