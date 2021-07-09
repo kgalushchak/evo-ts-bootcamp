@@ -91,7 +91,6 @@ class GameStore {
   }
 
   move(context: CanvasRenderingContext2D) {
-    this.snake = moveSnake(this.snake, this.direction, STEP, WIDTH, HEIGHT);
     context.clearRect(0, 0, WIDTH, HEIGHT);
     if (isFoodEaten(this.snake, this.foodPosition)) {
       this.snake = adjustSnakeLength(this.snake, this.direction, STEP, WIDTH, HEIGHT);
@@ -107,6 +106,8 @@ class GameStore {
       }
       this.food = getFood();
       this.foodPosition = getFoodPosition(WIDTH, HEIGHT, STEP);
+    } else {
+      this.snake = moveSnake(this.snake, this.direction, STEP, WIDTH, HEIGHT);
     }
     this.draw(context);
     if (isCollisionWithTail(this.snake)) {
