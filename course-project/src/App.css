@@ -3,7 +3,7 @@
 }
 
 canvas {
-  background: #F6C6CE;
+  background: #E0FFFF;
   padding: 0;
   margin: auto;
   position: absolute;
@@ -22,6 +22,10 @@ canvas {
 
 #game-status p {
   margin: 1px;
+}
+
+#game-rules p {
+  font-size: 20px;
 }
 
 #status-text {
@@ -57,4 +61,8 @@ button {
 
 button:hover {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.3), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+img {
+  margin-right: 5px;
 }
