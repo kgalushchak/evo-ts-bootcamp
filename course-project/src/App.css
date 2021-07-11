@@ -4,16 +4,9 @@
 
 canvas {
   background: #E0FFFF;
-  padding: 0;
-  margin: auto;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
 
-#game-status-container {
+#game-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,6 +42,22 @@ canvas {
 
 #start-btn {
   font-size: 5rem;
+}
+
+#score-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#score-container p {
+  width: 200px;
+  font-size: 20px;
+  font-family: "Courier New";
+  font-weight: bold;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 2px;
 }
 
 button {

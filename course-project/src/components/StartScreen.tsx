@@ -9,7 +9,7 @@ import snake from '../images/snake.svg';
 
 const StartScreen: React.FC = observer(() => {
   return (
-    <div id="game-status-container">
+    <div id="game-container">
       <div id="game-status">
         <img src={snake} width="100rem"></img>
         <h3>Welcome to Snake Game!</h3>
