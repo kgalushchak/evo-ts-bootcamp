@@ -29,6 +29,7 @@ class GameStore {
   food: Food = getFood();
   score = 0;
   highScore = 0;
+  highScoreHit = false;
 
   constructor() {
     makeAutoObservable(this, {
@@ -81,6 +82,7 @@ class GameStore {
     if (isCollisionWithTail(this.snake)) {
       this.gameStatus = GameStatus.ENDED;
       if (this.score > this.highScore) {
+        this.highScoreHit = true;
         this.highScore = this.score;
       }
     }
@@ -94,6 +96,7 @@ class GameStore {
     this.foodPosition = getFoodPosition(WIDTH, HEIGHT, STEP, this.snake);
     this.food = getFood();
     this.score = 0;
+    this.highScoreHit = false;
   }
 }
 

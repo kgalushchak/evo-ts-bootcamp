@@ -2,7 +2,7 @@ import {observer} from 'mobx-react-lite';
 import {useStore} from '../GameStore';
 
 const Score = observer(() => {
-  const {score, highScore} = useStore('Game');
+  const {score, highScore, highScoreHit} = useStore('Game');
 
   return (<div id="score-container">
     <div>
@@ -11,7 +11,13 @@ const Score = observer(() => {
     </div>
     <div>
       <h3>High Score</h3>
-      <p>{highScore}</p>
+      <div className={highScoreHit ? 'box' : ''}>
+        <span className="span-1"></span>
+        <span className="span-2"></span>
+        <span className="span-3"></span>
+        <span className="span-4"></span>
+        <p>{highScore}</p>
+      </div>
     </div>
   </div>);
 });
