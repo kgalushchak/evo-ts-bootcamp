@@ -1,4 +1,4 @@
-import {Direction, EyesPosition, FoodType, Position, Snake} from './types';
+import {Direction, EyesPosition, Food, Position, Snake} from './types';
 import {food} from './food';
 
 const LEFT_EYE_INDENT = 0.25;
@@ -111,14 +111,22 @@ const generateRandomNumberUsingStep = (maxNumber: number, step: number): number 
   return a;
 };
 
-export const getFoodPosition = (width: number, height: number, step: number): Position => {
+const generateRandomPosition = (width: number, height: number, step: number): Position => {
   return {
     x: generateRandomNumberUsingStep(width, step),
     y: generateRandomNumberUsingStep(height, step)
   };
 };
 
-export const getFood = (): {foodImg: HTMLImageElement, foodType: FoodType} => {
+export const getFoodPosition = (width: number, height: number, step: number, snake: Snake): Position => {
+  let foodPosition: Position;
+  do {
+    foodPosition = generateRandomPosition(width, height, step);
+  } while (isFoodOverlapping(snake, foodPosition));
+  return foodPosition;
+};
+
+export const getFood = (): Food => {
   const menuSize = food.length;
   const selectedFood = Math.floor(Math.random() * menuSize);
   const foodImg = new Image();
@@ -146,4 +154,14 @@ export const changeDirection = (direction: Direction): Direction => {
     newDirection = direction + 1;
   } else newDirection = Direction.LEFT;
   return newDirection;
+};
+
+const isFoodOverlapping = (snake: Snake, food: Position): boolean => {
+  let isOverlapping = false;
+  snake.forEach(snakeEl => {
+    if (snakeEl.x === food.x && snakeEl.y === food.y) {
+      isOverlapping = true;
+    }
+  });
+  return isOverlapping;
 };

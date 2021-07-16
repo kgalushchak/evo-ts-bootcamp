@@ -1,19 +1,19 @@
 import React from 'react';
+import {observer} from 'mobx-react-lite';
 import './App.css';
-import Canvas from './components/Canvas';
-import {HEIGHT, WIDTH, useStore } from './GameStore';
+import {useStore } from './GameStore';
 import {useEventListener} from './utils/hooks';
 import {Directions, Keys} from './Keys';
-import {observer} from 'mobx-react-lite';
+import GameContainer from './components/GameContainer';
 
 const App = observer(() => {
-  const {draw, setDirection} = useStore('Game');
+  const {setDirection} = useStore('Game');
 
   const handler =
     (e: KeyboardEvent) => {
       if (!(Object.values(Keys) as string[]).includes(e.code)) {
         e.preventDefault();
-        return false;
+        return;
       }
       const selectedDirection = Directions.get(Keys[e.code as keyof typeof Keys])!;
       setDirection(selectedDirection);
@@ -23,7 +23,7 @@ const App = observer(() => {
 
   return (
     <div className="App">
-      <Canvas draw={draw} id="game-canvas" height={HEIGHT.toString()} width={WIDTH.toString()}/>
+      <GameContainer/>
     </div>
   );
 });

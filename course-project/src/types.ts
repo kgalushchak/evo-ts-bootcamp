@@ -4,9 +4,14 @@ export type EyesPosition = [Position, Position];
 
 export type Snake = Position[];
 
-export type Food = {
+export type FoodTemplate = {
   imgSrc: string,
   type: FoodType
+};
+
+export type Food = {
+  foodImg: HTMLImageElement,
+  foodType: FoodType
 };
 
 export enum Direction {

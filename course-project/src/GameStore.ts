@@ -1,9 +1,9 @@
 import {action, makeAutoObservable} from 'mobx';
 import {createContext} from './utils/storeUtils';
+import {Direction, Food, FoodType, GameStatus, Position, Snake} from './types';
 import {
   adjustSnakeLength,
   changeDirection,
-  getEyesPosition,
   getFood,
   getFoodPosition,
   getInitialSnakePosition,
@@ -11,12 +11,13 @@ import {
   isFoodEaten,
   moveSnake
 } from './gameCalculations';
-import {Direction, FoodType, GameStatus, Position, Snake} from './types';
+import {getScore} from './scoreCalculations';
+import {drawFood, drawSnake} from './draw';
 
 export const WIDTH = 900;
 export const HEIGHT = 600;
 export const STEP = 30;
-const MIN_MOVE_TIMEOUT = 50;
+const MIN_MOVE_TIMEOUT = 100;
 const MOVE_TIMEOUT_CHANGE_STEP = 100;
 
 class GameStore {
@@ -24,16 +25,17 @@ class GameStore {
   gameStatus: GameStatus = GameStatus.NOT_STARTED;
   direction: Direction = Direction.RIGHT;
   snake:  Snake = getInitialSnakePosition(WIDTH, HEIGHT, STEP);
-  foodPosition: Position = getFoodPosition(WIDTH, HEIGHT, STEP);
-  food = getFood();
+  foodPosition: Position = getFoodPosition(WIDTH, HEIGHT, STEP, this.snake);
+  food: Food = getFood();
+  score = 0;
+  highScore = 0;
+  highScoreHit = false;
 
   constructor() {
     makeAutoObservable(this, {
       setDirection: action.bound,
       setGameStatus: action.bound,
       draw: action.bound,
-      drawSnake: action.bound,
-      drawFood: action.bound,
       move: action.bound,
       resetGame: action.bound
     });
@@ -52,47 +54,14 @@ class GameStore {
   }
 
   draw(context: CanvasRenderingContext2D) {
-    this.drawFood(context);
-    this.drawSnake(context);
-  }
-
-  //TODO move to separate file
-  drawSnake(context: CanvasRenderingContext2D) {
-    context.fillStyle = 'rgb(0, 255, 0)';
-    context.strokeStyle = 'rgb(0, 200, 0)';
-    this.snake.forEach(
-      snakeEl => {
-        context.fillRect(snakeEl.x, snakeEl.y, STEP, STEP);
-        context.strokeRect(snakeEl.x, snakeEl.y, STEP, STEP);
-      });
-
-    const eyes = getEyesPosition(this.direction, this.snake[0].x, this.snake[0].y, STEP);
-    eyes.forEach(
-      eye => {
-        context.beginPath();
-        context.fillStyle = 'rgb(255, 255, 255)';
-        context.strokeStyle = 'rgb(0, 0, 0)';
-        context.arc(eye.x, eye.y, 5, 0 , 2 * Math.PI);
-        context.stroke();
-        context.fill();
-        context.closePath();
-
-        context.beginPath();
-        context.fillStyle = 'rgb(0, 0, 0)';
-        context.arc(eye.x, eye.y, 2, 0 , 2 * Math.PI);
-        context.fill();
-        context.closePath();
-      }
-    );
-  }
-
-  drawFood(context: CanvasRenderingContext2D){
-    context.drawImage(this.food.foodImg, this.foodPosition.x, this.foodPosition.y, STEP, STEP);
+    drawFood(context, this.food, this.foodPosition);
+    drawSnake(context, this.snake, this.direction);
   }
 
   move(context: CanvasRenderingContext2D) {
     context.clearRect(0, 0, WIDTH, HEIGHT);
     if (isFoodEaten(this.snake, this.foodPosition)) {
+      this.score = this.score + getScore(this.moveTimeout, this.snake.length);
       this.snake = adjustSnakeLength(this.snake, this.direction, STEP, WIDTH, HEIGHT);
       if (this.food.foodType === FoodType.DRUG) {
         this.direction = changeDirection(this.direction);
@@ -105,13 +74,17 @@ class GameStore {
         }
       }
       this.food = getFood();
-      this.foodPosition = getFoodPosition(WIDTH, HEIGHT, STEP);
+      this.foodPosition = getFoodPosition(WIDTH, HEIGHT, STEP, this.snake);
     } else {
       this.snake = moveSnake(this.snake, this.direction, STEP, WIDTH, HEIGHT);
     }
     this.draw(context);
     if (isCollisionWithTail(this.snake)) {
       this.gameStatus = GameStatus.ENDED;
+      if (this.score > this.highScore) {
+        this.highScoreHit = true;
+        this.highScore = this.score;
+      }
     }
   }
 
@@ -120,8 +93,10 @@ class GameStore {
     this.moveTimeout = 500;
     this.direction = Direction.RIGHT;
     this.snake = getInitialSnakePosition(WIDTH, HEIGHT, STEP);
-    this.foodPosition = getFoodPosition(WIDTH, HEIGHT, STEP);
+    this.foodPosition = getFoodPosition(WIDTH, HEIGHT, STEP, this.snake);
     this.food = getFood();
+    this.score = 0;
+    this.highScoreHit = false;
   }
 }
 

@@ -1,4 +1,4 @@
-import {Food, FoodType} from './types';
+import {Food, FoodTemplate, FoodType} from './types';
 import apple from './images/apple.svg';
 import banana from './images/banana.svg';
 import avocado from './images/avocado.svg';
@@ -9,7 +9,7 @@ import pill2 from './images/pill2.svg';
 import energyDrink from './images/energy-drink.svg';
 import burger from './images/burger.svg';
 
-export const food: Food[] = [
+export const food: FoodTemplate[] = [
   {
     imgSrc: apple,
     type: FoodType.FRUIT
