@@ -18,10 +18,10 @@ export const WIDTH = 900;
 export const HEIGHT = 600;
 export const STEP = 30;
 const MIN_MOVE_TIMEOUT = 100;
-const MOVE_TIMEOUT_CHANGE_STEP = 100;
+const MOVE_TIMEOUT_CHANGE_STEP = 50;
 
 class GameStore {
-  moveTimeout = 500;
+  moveTimeout = 350;
   gameStatus: GameStatus = GameStatus.NOT_STARTED;
   direction: Direction = Direction.RIGHT;
   snake:  Snake = getInitialSnakePosition(WIDTH, HEIGHT, STEP);
@@ -34,7 +34,6 @@ class GameStore {
   constructor() {
     makeAutoObservable(this, {
       setDirection: action.bound,
-      setGameStatus: action.bound,
       draw: action.bound,
       move: action.bound,
       resetGame: action.bound
@@ -47,10 +46,6 @@ class GameStore {
     if ((this.direction === Direction.UP || this.direction === Direction.DOWN)
       && (direction === Direction.UP || direction === Direction.DOWN)) return;
     this.direction = direction;
-  }
-
-  setGameStatus(gameStatus: GameStatus) {
-    this.gameStatus = gameStatus;
   }
 
   draw(context: CanvasRenderingContext2D) {
