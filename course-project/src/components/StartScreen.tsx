@@ -29,7 +29,7 @@ const StartScreen: React.FC = observer(() => {
           </p>
           <p>
             <img src={pill} width="20px"></img>
-            The behavior can be unexpected when a pill is eaten
+            Pills change your direction
           </p>
         </div>
         <p id="start-btn"><StartButton/></p>
