@@ -1,9 +1,10 @@
 const SpeedCoefficients: Map<number, number> = new Map([ // mapping moveTimeout to score coefficient
-  [350, 20],
-  [300, 50],
-  [250, 100],
-  [200, 250],
-  [150, 500],
+  [400, 20],
+  [350, 50],
+  [300, 100],
+  [250, 250],
+  [200, 500],
+  [150, 1000],
   [100, 1500],
 ]);
 

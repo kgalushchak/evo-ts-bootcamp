@@ -21,7 +21,7 @@ const MIN_MOVE_TIMEOUT = 100;
 const MOVE_TIMEOUT_CHANGE_STEP = 50;
 
 class GameStore {
-  moveTimeout = 350;
+  moveTimeout = 400;
   gameStatus: GameStatus = GameStatus.NOT_STARTED;
   direction: Direction = Direction.RIGHT;
   snake:  Snake = getInitialSnakePosition(WIDTH, HEIGHT, STEP);
@@ -85,7 +85,7 @@ class GameStore {
 
   resetGame() {
     this.gameStatus = GameStatus.ACTIVE;
-    this.moveTimeout = 500;
+    this.moveTimeout = 400;
     this.direction = Direction.RIGHT;
     this.snake = getInitialSnakePosition(WIDTH, HEIGHT, STEP);
     this.foodPosition = getFoodPosition(WIDTH, HEIGHT, STEP, this.snake);
